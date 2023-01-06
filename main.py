@@ -16,7 +16,7 @@ if __name__ == '__main__':
             host='127.0.0.1',
             port=3306,
             user='root',
-            passwd='sm-pass',
+            passwd='my-secret-pw',
             db='pythondb',
         ) 
         cursor = connect.cursor()
@@ -26,3 +26,7 @@ if __name__ == '__main__':
     except pymysql.err.OperationalError as err:
         print('No fué posible realizar la conexión')
         print(err)
+    finally:
+        print('finally exec')   # Finally siempre se ejecuta
+        cursor.close()  # Esto lanza una excepción (cursor, no está definido)
+        connect.close() # Esto también
