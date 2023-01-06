@@ -1,4 +1,5 @@
 import pymysql
+from decouple import config
 
 DROP_TABLE_USERS = "DROP TABLE IF EXISTS users"
 
@@ -15,9 +16,9 @@ if __name__ == '__main__':
         connect = pymysql.Connect(
             host='127.0.0.1',
             port=3306,
-            user='root',
-            passwd='my-secret-pw',
-            db='pythondb',
+            user=config('USER_MYSQL'),
+            passwd=config('PASSWORD_MYSQL'),
+            db=config('DB_MYSQL'),
         ) 
         with connect.cursor() as cursor:
             cursor.execute(DROP_TABLE_USERS)
