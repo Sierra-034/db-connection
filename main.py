@@ -19,14 +19,13 @@ if __name__ == '__main__':
             passwd='my-secret-pw',
             db='pythondb',
         ) 
-        cursor = connect.cursor()
-        cursor.execute(DROP_TABLE_USERS)
-        cursor.execute(USERS_TABLE)
+        with connect.cursor() as cursor:
+            cursor.execute(DROP_TABLE_USERS)
+            cursor.execute(USERS_TABLE)
         print('Conexión realizada de forma exitosa!')
     except pymysql.err.OperationalError as err:
         print('No fué posible realizar la conexión')
         print(err)
     finally:
         print('finally exec')   # Finally siempre se ejecuta
-        cursor.close()  # Esto lanza una excepción (cursor, no está definido)
         connect.close() # Esto también
