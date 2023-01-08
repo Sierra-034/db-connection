@@ -11,6 +11,14 @@ USERS_TABLE = """CREATE TABLE users(
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )"""
 
+users = [
+    ('user1', 'password', 'user1@gmail.com'),
+    ('user2', 'password', 'user2@gmail.com'),
+    ('user3', 'password', 'user3@gmail.com'),
+    ('user4', 'password', 'user4@gmail.com'),
+    ('user5', 'password', 'user5@gmail.com'),
+]
+
 if __name__ == '__main__':
     try:
         connect = pymysql.Connect(
@@ -25,8 +33,7 @@ if __name__ == '__main__':
             cursor.execute(USERS_TABLE)
 
             query = "INSERT INTO users(username, password, email) VALUES(%s, %s, %s)"
-            values = ('sierra_034', 'password123', 'sierra@gmail.com')
-            cursor.execute(query, values)
+            cursor.executemany(query, users)
             connect.commit()
 
         print('Conexión realizada de forma exitosa!')
