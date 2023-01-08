@@ -36,10 +36,13 @@ if __name__ == '__main__':
             cursor.executemany(query, users)
             connect.commit()
 
-            query = "SELECT id, username, email FROM users WHERE id >= 3"
+            query = "SELECT * FROM users"
             rows = cursor.execute(query)
-            for row in cursor.fetchall():
+            for row in cursor.fetchmany(3):
                 print(row)
+
+            user = cursor.fetchone()
+            print(user)
 
         print('Conexión realizada de forma exitosa!')
     except pymysql.err.OperationalError as err:
