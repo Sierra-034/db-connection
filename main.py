@@ -1,10 +1,9 @@
-import pymysql
-from decouple import config
+import psycopg2
 
 DROP_TABLE_USERS = "DROP TABLE IF EXISTS users"
 
 USERS_TABLE = """CREATE TABLE users(
-    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    id SERIAL,
     username VARCHAR(50) NOT NULL,
     password VARCHAR(50) NOT NULL,
     email VARCHAR(50) NOT NULL,
@@ -21,13 +20,13 @@ users = [
 
 if __name__ == '__main__':
     try:
-        connect = pymysql.Connect(
-            host='127.0.0.1',
-            port=3306,
-            user=config('USER_MYSQL'),
-            passwd=config('PASSWORD_MYSQL'),
-            db=config('DB_MYSQL'),
+        connect = psycopg2.connect(
+            "dbname='pythondb' \
+            user='postgres' \
+            password='pw' \
+            host='127.0.0.1'"
         ) 
+
         with connect.cursor() as cursor:
             cursor.execute(DROP_TABLE_USERS)
             cursor.execute(USERS_TABLE)
@@ -54,7 +53,7 @@ if __name__ == '__main__':
             connect.commit()
 
         print('Conexión realizada de forma exitosa!')
-    except pymysql.err.OperationalError as err:
+    except psycopg2.OperationalError as err:
         print('No fué posible realizar la conexión')
         print(err)
     finally:
